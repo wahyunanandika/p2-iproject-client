@@ -16,8 +16,8 @@ export default {
 </script>
 
 <template>
-<nav class="px-2 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-  <div class="container flex flex-wrap items-center justify-between mx-auto">
+<nav class="w-full px-2 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+  <div class="w-full container flex flex-wrap items-center justify-between">
     <a href="#" class="flex items-center">
         <img src="https://cdn.nba.com/logos/leagues/L/nba-id.svg" class="h-6 mr-3 sm:h-10" alt="Flowbite Logo" />
         <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">NBA MVP Ladder</span>

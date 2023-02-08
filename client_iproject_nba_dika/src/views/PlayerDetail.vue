@@ -3,6 +3,7 @@ import { mapState,mapActions } from 'pinia';
 import { useCounterStore } from '../stores/counter';
 import TableStatsPlayer from '../components/TableStatsPlayer.vue';
 import ChartStatPlayer from '../components/ChartStatsPlayer.vue'
+import Sidebar from '../components/Sidebar.vue';
 export default {
     methods: {
         ...mapActions(useCounterStore, ['getplayer','specificplayerpercentage']),
@@ -39,7 +40,8 @@ export default {
     },
     components: {
         TableStatsPlayer,
-        ChartStatPlayer
+        ChartStatPlayer,
+        Sidebar
     },
     data() {
         return{
@@ -51,68 +53,76 @@ export default {
 </script>
 
 <template>
-<h1>test123</h1>
-<ChartStatPlayer :storage5matchplayer="storage5matchplayer" :data="data"/>
-<div class="justify-center">
-  <button @click.prevent="clickon('points')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-    Points
-  </button>
-  <button @click.prevent="clickon('assists')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-    Assists
-  </button>
-  <button @click.prevent="clickon('rebounds')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-    Rebounds
-  </button>
-  <button @click.prevent="clickon('blocks')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-    Blocks
-  </button>
-  <button @click.prevent="clickon('steals')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-    Steals
-  </button>
-  <button @click.prevent="clickon('fgp')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-    Field Goal Percentage
-  </button>
-  <button @click.prevent="clickon('ftp')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-    Field Throw Percentage
-  </button>
-</div>
-
-
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3">
-                    Match
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Points
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Assists
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Rebounds
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Blocks
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Steals
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Field Goal Percentage
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Field Throw Percentage
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <TableStatsPlayer v-for="onematchplayer, index in storage5matchplayer" :onematchplayer="onematchplayer" :index="index" :totalasssistplayer="totalasssistplayer" :totalreboundplayer="totalreboundplayer" :totalpointsplayer="totalpointsplayer" :totalblockplayer="totalblockplayer" :totalfgpplayer="totalfgpplayer" :totalftpplayer="totalftpplayer" :totalstealsplayer="totalstealsplayer"  />
+    <div class="flex">
+        <Sidebar />
+        
+        <div class="w-full px-4 h-[90vh] overflow-y-scroll">
+    
+            <ChartStatPlayer :storage5matchplayer="storage5matchplayer" :data="data"/>
+            <div class="flex justify-center">
+              <button @click.prevent="clickon('points')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+                Points
+              </button>
+              <button @click.prevent="clickon('assists')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                Assists
+              </button>
+              <button @click.prevent="clickon('rebounds')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                Rebounds
+              </button>
+              <button @click.prevent="clickon('blocks')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                Blocks
+              </button>
+              <button @click.prevent="clickon('steals')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                Steals
+              </button>
+              <button @click.prevent="clickon('fgp')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                Field Goal Percentage
+              </button>
+              <button @click.prevent="clickon('ftp')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                Field Throw Percentage
+              </button>
+            </div>
             
-        </tbody>
-    </table>
+            
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                Match
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Points
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Assists
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Rebounds
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Blocks
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Steals
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Field Goal Percentage
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Field Throw Percentage
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <TableStatsPlayer v-for="onematchplayer, index in storage5matchplayer" :onematchplayer="onematchplayer" :index="index" :totalasssistplayer="totalasssistplayer" :totalreboundplayer="totalreboundplayer" :totalpointsplayer="totalpointsplayer" :totalblockplayer="totalblockplayer" :totalfgpplayer="totalfgpplayer" :totalftpplayer="totalftpplayer" :totalstealsplayer="totalstealsplayer"  />
+                        
+                    </tbody>
+                </table>
+        </div>
+
+    </div>
+
 </div>
 
 </template>
