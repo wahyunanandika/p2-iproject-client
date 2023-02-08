@@ -15,7 +15,8 @@ export const useCounterStore = defineStore('counter', {
       totalreboundplayer: [],
       totalfgpplayer: [],
       totalftpplayer: [],
-      totalstealsplayer: []
+      totalstealsplayer: [],
+      userLogin: {}
     }
   },
   getters: {
@@ -124,6 +125,67 @@ export const useCounterStore = defineStore('counter', {
         })
         this.totalftpplayer = this.storage5matchplayer.map(el => {
           return +el.ftp
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getProfile() {
+      try {
+        const {data} = await axios({
+          method: 'get',
+          url: 'http://localhost:3000/profile',
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        this.userLogin = data
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async subscribing() {
+      try {
+        const {data} = await axios({
+          method: 'patch',
+          url: 'http://localhost:3000/subscribe',
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        this.getProfile()
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async subscribe() {
+      const {data} = await axios({
+        method: 'post',
+        url: 'http://localhost:3000/generate-midtrans-token',
+        headers:{
+          access_token: localStorage.access_token
+        }
+      })
+      const cb = this.subscribing
+      try {
+        window.snap.pay(data.token, {
+          onSuccess: function(result){
+            /* You may add your own implementation here */
+            cb()
+            alert("payment success!"); console.log(result);
+          },
+          onPending: function(result){
+            /* You may add your own implementation here */
+            alert("wating your payment!"); console.log(result);
+          },
+          onError: function(result){
+            /* You may add your own implementation here */
+            alert("payment failed!"); console.log(result);
+          },
+          onClose: function(){
+            /* You may add your own implementation here */
+            alert('you closed the popup without finishing the payment');
+          }
         })
       } catch (error) {
         console.log(error);
