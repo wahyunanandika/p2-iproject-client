@@ -6,13 +6,33 @@ import ChartStatPlayer from '../components/ChartStatsPlayer.vue'
 export default {
     methods: {
         ...mapActions(useCounterStore, ['getplayer','specificplayerpercentage']),
-        fetchPlayerData() {
-
+        transferData() {
+            this.specificplayerpercentage(this.playerData.thirdapiId)
+            if (this.isClicked == 'assists') {
+                this.data = this.totalasssistplayer
+            } else if (this.isClicked == 'rebounds') {
+                this.data = this.totalreboundplayer
+            } else if (this.isClicked == 'steals') {
+                this.data = this.totalstealsplayer
+            } else if (this.isClicked == 'blocks') {
+                this.data = this.totalblockplayer
+            } else if (this.isClicked == 'ftp') {
+                this.data = this.totalftpplayer
+            } else if (this.isClicked == 'fgp') {
+                this.data = this.totalfgpplayer
+            } else {
+                this.data = this.totalpointsplayer
+            }
+        },
+        clickon(click) {
+            this.isClicked = click
+            this.transferData()
         }
     },
-    created() {
-        this.getplayer(this.$route.params.id)
-        this.specificplayerpercentage()
+    async created() {
+        await this.getplayer(this.$route.params.id)
+        await this.specificplayerpercentage(this.playerData.thirdapiId)
+        this.data = this.totalpointsplayer
     },
     computed: {
         ...mapState(useCounterStore, ['playerData', 'playeStatistic', 'storage5matchplayer', 'totalasssistplayer', 'totalreboundplayer', 'totalpointsplayer', 'totalblockplayer', 'totalfgpplayer', 'totalftpplayer', 'totalstealsplayer'])
@@ -20,13 +40,42 @@ export default {
     components: {
         TableStatsPlayer,
         ChartStatPlayer
+    },
+    data() {
+        return{
+            isClicked: 'points',
+            data: this.totalpointsplayer
+        }
     }
 }
 </script>
 
 <template>
 <h1>test123</h1>
-<ChartStatPlayer :storage5matchplayer="storage5matchplayer" :totalasssistplayer="totalasssistplayer" :totalreboundplayer="totalreboundplayer" :totalpointsplayer="totalpointsplayer" :totalblockplayer="totalblockplayer" :totalfgpplayer="totalfgpplayer" :totalftpplayer="totalftpplayer" :totalstealsplayer="totalstealsplayer"/>
+<div class="inline-flex">
+  <button @click.prevent="clickon('points')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+    Points
+  </button>
+  <button @click.prevent="clickon('assists')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+    Assists
+  </button>
+  <button @click.prevent="clickon('rebounds')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+    Rebounds
+  </button>
+  <button @click.prevent="clickon('blocks')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+    Blocks
+  </button>
+  <button @click.prevent="clickon('steals')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+    Steals
+  </button>
+  <button @click.prevent="clickon('fgp')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+    Field Goal Percentage
+  </button>
+  <button @click.prevent="clickon('ftp')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+    Field Throw Percentage
+  </button>
+</div>
+<ChartStatPlayer :storage5matchplayer="storage5matchplayer" :data="data"/>
 <table border="1">
     <th>
         <th>No</th>

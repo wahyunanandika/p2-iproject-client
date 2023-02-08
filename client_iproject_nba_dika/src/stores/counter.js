@@ -75,11 +75,13 @@ export const useCounterStore = defineStore('counter', {
           }
         })
         this.playerData = data
+        this.specificplayerpercentage(data.thirdapiId)
       } catch (error) {
         console.log(error);
       }
     },
-    async specificplayerpercentage() {
+    async specificplayerpercentage(id) {
+      console.log(id, 'test');
       try {
         let Year
         let nowMonth = (new Date()).getMonth()
@@ -92,7 +94,7 @@ export const useCounterStore = defineStore('counter', {
         const { data } = await axios({
           method: 'GET',
           url: 'https://api-nba-v1.p.rapidapi.com/players/statistics',
-          params: { id: '1881', season: `${Year}` },
+          params: { id: `${id}`, season: `${Year}` },
           headers: {
             'X-RapidAPI-Key': '8a2a20a7ccmsh33f3256e888257fp1d4adfjsn235ec2ad880b',
             'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
