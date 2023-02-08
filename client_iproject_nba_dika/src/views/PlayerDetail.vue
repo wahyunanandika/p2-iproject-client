@@ -52,7 +52,8 @@ export default {
 
 <template>
 <h1>test123</h1>
-<div class="inline-flex">
+<ChartStatPlayer :storage5matchplayer="storage5matchplayer" :data="data"/>
+<div class="justify-center">
   <button @click.prevent="clickon('points')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
     Points
   </button>
@@ -75,20 +76,45 @@ export default {
     Field Throw Percentage
   </button>
 </div>
-<ChartStatPlayer :storage5matchplayer="storage5matchplayer" :data="data"/>
-<table border="1">
-    <th>
-        <th>No</th>
-        <th>Points</th>
-        <th>Assists</th>
-        <th>Total Rebounds</th>
-        <th>Block</th>
-        <th>Steals</th>
-        <th>Field Goal Percentage</th>
-        <th>Field Throw Percentage</th>
-    </th>
-    <TableStatsPlayer v-for="onematchplayer, index in storage5matchplayer" :onematchplayer="onematchplayer" :index="index" :totalasssistplayer="totalasssistplayer" :totalreboundplayer="totalreboundplayer" :totalpointsplayer="totalpointsplayer" :totalblockplayer="totalblockplayer" :totalfgpplayer="totalfgpplayer" :totalftpplayer="totalftpplayer" :totalstealsplayer="totalstealsplayer"  />
-</table>
+
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Match
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Points
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Assists
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Rebounds
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Blocks
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Steals
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Field Goal Percentage
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Field Throw Percentage
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <TableStatsPlayer v-for="onematchplayer, index in storage5matchplayer" :onematchplayer="onematchplayer" :index="index" :totalasssistplayer="totalasssistplayer" :totalreboundplayer="totalreboundplayer" :totalpointsplayer="totalpointsplayer" :totalblockplayer="totalblockplayer" :totalfgpplayer="totalfgpplayer" :totalftpplayer="totalftpplayer" :totalstealsplayer="totalstealsplayer"  />
+            
+        </tbody>
+    </table>
+</div>
+
 </template>
 
 <style>
