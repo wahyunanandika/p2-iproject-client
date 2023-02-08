@@ -11,7 +11,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomePage
-      
+
     },
     {
       path: '/login',
@@ -31,15 +31,19 @@ const router = createRouter({
   ]
 })
 
-// router.beforeEach((from, to, next) => {
-//   const isLogin = !!localStorage.access_token
-//   if (isLogin && (to.name == 'register' || to.name == 'login')) {
-//     next({name: 'home'})
-//   } else if (!isLogin && to.name == 'detailplayer') {
-//     next({name: 'login'})
-//   } else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  const isLogin = !!localStorage.access_token
+  const status = localStorage.status
+  if (isLogin && (to.name === 'register' || to.name == 'login')) {
+    console.log(isLogin);
+    next({ name: 'home' })
+  } else if (!isLogin && to.name === 'detailplayer') {
+    next({ name: 'login' })
+  } else if ((isLogin && status === 'member') && to.name === 'detailplayer') {
+    next({ name: 'home' })
+  } else {
+    next()
+  }
+})
 
 export default router

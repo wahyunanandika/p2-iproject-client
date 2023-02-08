@@ -32,6 +32,7 @@ export const useCounterStore = defineStore('counter', {
         })
         console.log((data));
         localStorage.setItem('access_token', data.access_token)
+        this.getProfile()
         this.router.push({ name: 'home' })
       } catch (error) {
         console.log(error);
@@ -140,6 +141,7 @@ export const useCounterStore = defineStore('counter', {
           }
         })
         this.userLogin = data
+        localStorage.setItem('status', data.status)
       } catch (error) {
         console.log(error);
       }
