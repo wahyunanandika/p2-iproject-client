@@ -6,7 +6,7 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 export default {
     name: 'LineChart',
     components: { Line },
-    props: ['storage5matchplayer', 'data'],
+    props: ['storage5matchplayer', 'data', 'playerData'],
     data() {
         return {
         }
@@ -15,11 +15,22 @@ export default {
         chartData() {
             return {
                 labels: ['Match 1', 'Match 2', 'Match 3', 'Match 4', 'Match 5'],
-                datasets: [{ data: this.data }]
+                datasets: [{
+                    label: this.playerData.name,
+                    backgroundColor: '#00FFFF',
+                    borderColor: "#5cddff",
+                    data: this.data
+                }, 
+                // {
+                //     label: this.playerData.name,
+                //     backgroundColor: '#f87979',
+                //     data: this.data
+                // }
+            ]
             }
         },
         chartOptions() {
-            return{
+            return {
                 responsive: true
             }
         }
