@@ -9,8 +9,11 @@ export default {
 </script>
 
 <template>
-<Navbar />
-<router-view></router-view>
+    <div class="flex flex-col">
+        <Navbar />
+
+        <router-view></router-view>
+    </div>
 </template>
 
 <style scoped>
