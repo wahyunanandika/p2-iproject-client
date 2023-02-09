@@ -5,9 +5,10 @@ import { useCounterStore } from '../stores/counter';
 export default {
     props: ['playerData'],
     methods: {
-        ...mapActions(useCounterStore, ['getallplayers', 'fetchDataCompare', 'getCompareProfile']),
+        ...mapActions(useCounterStore, ['getallplayers', 'fetchDataCompare', 'getCompareProfile', 'getData']),
         async compiledfunction(id) {
             const data = await this.fetchDataCompare(id)
+            this.$emit('getData', data)
             console.log(data, id, 'tandaa di sidebar');
             this.$emit('getCompareData', data)
         }

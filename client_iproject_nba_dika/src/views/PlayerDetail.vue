@@ -6,7 +6,7 @@ import ChartStatPlayer from '../components/ChartStatsPlayer.vue'
 import Sidebar from '../components/Sidebar.vue';
 export default {
     methods: {
-        ...mapActions(useCounterStore, ['getplayer', 'specificplayerpercentage', 'getplayerthird']),
+        ...mapActions(useCounterStore, ['getplayer', 'specificplayerpercentage', 'getplayerthird', 'fetchDataCompare']),
         transferData() {
             this.specificplayerpercentage(this.playerData.thirdapiId)
             if (this.isClicked == 'assists') {
@@ -64,17 +64,20 @@ export default {
         },
         getCompareProfile(id) {
             this.getplayerthird(id)
+        },
+        getData(data){
+            this.datafivematchcompare = data
         }
     },
     async created() {
         await this.getplayer(this.$route.params.id)
         await this.specificplayerpercentage(this.playerData.thirdapiId)
         this.data = this.totalpointsplayer
-        this.data2 = this.totalpointsplayer2
+        this.data2 = this.datafivematchcompare
         
     },
     computed: {
-        ...mapState(useCounterStore, ['playerData2','playerData', 'playeStatistic', 'storage5matchplayer', 'totalasssistplayer', 'totalreboundplayer', 'totalpointsplayer', 'totalblockplayer', 'totalfgpplayer', 'totalftpplayer', 'totalstealsplayer'])
+        ...mapState(useCounterStore, ['storageComparePlayer','playerData2','playerData', 'playeStatistic', 'storage5matchplayer', 'totalasssistplayer', 'totalreboundplayer', 'totalpointsplayer', 'totalblockplayer', 'totalfgpplayer', 'totalftpplayer', 'totalstealsplayer'])
     },
     components: {
         TableStatsPlayer,
@@ -94,7 +97,8 @@ export default {
             totalftpplayer2: [],
             totalstealsplayer2: [],
             data2: this.totalpointsplayer2,
-            compareProfile: {}
+            compareProfile: {},
+            datafivematchcompare: []
         }
     }
 }
@@ -102,7 +106,7 @@ export default {
 
 <template>
     <div class="flex">
-        <Sidebar :playerData="playerData" @getCompareData="getCompareData"  />
+        <Sidebar :playerData="playerData" @getCompareData="getCompareData" @fetchDataCompare="fetchDataCompare" @getData="getData" />
 
         <div class="w-full px-4 h-[90vh] overflow-y-scroll">
             <h2 class="flex justify-center">{{ playerData.name }} Performance From Last 5 Matches</h2>
