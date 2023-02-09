@@ -6,15 +6,11 @@ export default {
     props: ['playerData'],
     methods: {
         ...mapActions(useCounterStore, ['getallplayers', 'fetchDataCompare', 'getCompareProfile']),
-        getCompareDatas(data) {
+        async compiledfunction(id) {
+            const data = await this.fetchDataCompare(id)
+            console.log(data, id, 'tandaa di sidebar');
             this.$emit('getCompareData', data)
-        },
-        fetchingDataCompare(id) {
-            this.fetchDataCompare(id)
-        },
-        // fetchCompareProfile(id) {
-        //     this.getCompareProfile(id)
-        // }
+        }
     },
     created(){
         this.getallplayers()
@@ -95,9 +91,8 @@ export default {
                     </div>
                 </li>
                 <li>
-                    <pre>{{ idscompare }}</pre>
                     <div class="mb-3 xl:w-96">
-                        <select v-model="idscompare" @change="fetchDataCompare(idscompare);getCompareDatas(storageComparePlayer)"
+                        <select v-model="idscompare" @change="compiledfunction(idscompare, storageComparePlayer)"
                             class="form-select appearance-none
                             block
                             w-full

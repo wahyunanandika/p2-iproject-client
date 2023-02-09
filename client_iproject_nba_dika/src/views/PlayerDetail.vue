@@ -37,10 +37,10 @@ export default {
             this.transferData()
         },
         getCompareData(data) {
+            console.log(data, 'tandaa');
             this.dataCompare = data
             this.getCompareProfile(data[0].player.id)
             this.totalasssistplayer2 = this.dataCompare.map(el => {
-                console.log(el, el.assists, 'a<<<');
                 return el.assists
             })
             this.totalpointsplayer2 = this.dataCompare.map(el => {

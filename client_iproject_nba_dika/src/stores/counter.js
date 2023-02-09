@@ -35,7 +35,6 @@ export const useCounterStore = defineStore('counter', {
           url: 'http://localhost:3000/login',
           data: form
         })
-        console.log((data));
         localStorage.setItem('access_token', data.access_token)
         this.getProfile()
         this.isLogin = localStorage.access_token
@@ -52,7 +51,6 @@ export const useCounterStore = defineStore('counter', {
           url: 'http://localhost:3000/register',
           data: form
         })
-        console.log(data);
         this.router.push({ name: 'login' })
       } catch (error) {
         console.log(error);
@@ -70,7 +68,6 @@ export const useCounterStore = defineStore('counter', {
           method: 'GET',
           url: 'http://localhost:3000/players'
         })
-        console.log(data);
         this.allPlayersData = data
       } catch (error) {
         console.log(error);
@@ -101,7 +98,6 @@ export const useCounterStore = defineStore('counter', {
           }
         })
         this.playerData2 = data
-        console.log(this.playerData2, 'ini masuk');
       } catch (error) {
         console.log(error);
       }
@@ -127,14 +123,13 @@ export const useCounterStore = defineStore('counter', {
           }
         })
         this.comparePlayerStatistic = data
-        console.log(data.response.length);
         this.storageComparePlayer = data.response.slice(data.response.length -5, data.response.length)
+        return this.storageComparePlayer
       } catch (error) {
         console.log(error);
       }
     },
     async specificplayerpercentage(id) {
-      console.log(id, 'test');
       try {
         let Year
         let nowMonth = (new Date()).getMonth()
@@ -154,10 +149,8 @@ export const useCounterStore = defineStore('counter', {
           }
         })
         this.playeStatistic = data
-        console.log(data.response.length);
         this.storage5matchplayer = data.response.slice(data.response.length -5, data.response.length)
         this.totalasssistplayer = this.storage5matchplayer.map(el => {
-          console.log(el, el.assists, 'a<<<');
           return el.assists
         })
         this.totalpointsplayer = this.storage5matchplayer.map(el=> {
