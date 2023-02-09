@@ -39,6 +39,12 @@ router.beforeEach((to, from, next) => {
   } else if (!isLogin && to.name === 'detailplayer') {
     next({ name: 'login' })
   } else if ((isLogin && status === 'member') && to.name === 'detailplayer') {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Subscribe First',
+      footer: '<a href="">Why do I have this issue?</a>'
+    })
     next({ name: 'home' })
   } else {
     next()
