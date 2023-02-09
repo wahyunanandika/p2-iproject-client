@@ -6,37 +6,75 @@ import ChartStatPlayer from '../components/ChartStatsPlayer.vue'
 import Sidebar from '../components/Sidebar.vue';
 export default {
     methods: {
-        ...mapActions(useCounterStore, ['getplayer', 'specificplayerpercentage']),
+        ...mapActions(useCounterStore, ['getplayer', 'specificplayerpercentage', 'getplayerthird']),
         transferData() {
             this.specificplayerpercentage(this.playerData.thirdapiId)
             if (this.isClicked == 'assists') {
                 this.data = this.totalasssistplayer
+                this.data2 = this.totalasssistplayer2
             } else if (this.isClicked == 'rebounds') {
                 this.data = this.totalreboundplayer
+                this.data2 = this.totalreboundplayer2
             } else if (this.isClicked == 'steals') {
                 this.data = this.totalstealsplayer
+                this.data2 = this.totalstealsplayer2
             } else if (this.isClicked == 'blocks') {
                 this.data = this.totalblockplayer
+                this.data2 = this.totalblockplayer2
             } else if (this.isClicked == 'ftp') {
                 this.data = this.totalftpplayer
+                this.data2 = this.totalftpplayer2
             } else if (this.isClicked == 'fgp') {
                 this.data = this.totalfgpplayer
+                this.data2 = this.totalfgpplayer2
             } else {
                 this.data = this.totalpointsplayer
+                this.data2 = this.totalpointsplayer2
             }
         },
         clickon(click) {
             this.isClicked = click
             this.transferData()
+        },
+        getCompareData(data) {
+            this.dataCompare = data
+            this.getCompareProfile(data[0].player.id)
+            this.totalasssistplayer2 = this.dataCompare.map(el => {
+                console.log(el, el.assists, 'a<<<');
+                return el.assists
+            })
+            this.totalpointsplayer2 = this.dataCompare.map(el => {
+                return el.points
+            })
+            this.totalreboundplayer2 = this.dataCompare.map(el => {
+                return el.rebounds = el.offReb + el.defReb
+            })
+            this.totalblockplayer2 = this.dataCompare.map(el => {
+                return el.blocks
+            })
+            this.totalstealsplayer2 = this.dataCompare.map(el => {
+                return el.steals
+            })
+            this.totalfgpplayer2 = this.dataCompare.map(el => {
+                return +el.fgp
+            })
+            this.totalftpplayer2 = this.dataCompare.map(el => {
+                return +el.ftp
+            })
+        },
+        getCompareProfile(id) {
+            this.getplayerthird(id)
         }
     },
     async created() {
         await this.getplayer(this.$route.params.id)
         await this.specificplayerpercentage(this.playerData.thirdapiId)
         this.data = this.totalpointsplayer
+        this.data2 = this.totalpointsplayer2
+        
     },
     computed: {
-        ...mapState(useCounterStore, ['playerData', 'playeStatistic', 'storage5matchplayer', 'totalasssistplayer', 'totalreboundplayer', 'totalpointsplayer', 'totalblockplayer', 'totalfgpplayer', 'totalftpplayer', 'totalstealsplayer'])
+        ...mapState(useCounterStore, ['playerData2','playerData', 'playeStatistic', 'storage5matchplayer', 'totalasssistplayer', 'totalreboundplayer', 'totalpointsplayer', 'totalblockplayer', 'totalfgpplayer', 'totalftpplayer', 'totalstealsplayer'])
     },
     components: {
         TableStatsPlayer,
@@ -46,7 +84,17 @@ export default {
     data() {
         return {
             isClicked: 'points',
-            data: this.totalpointsplayer
+            data: this.totalpointsplayer,
+            dataCompare: [],
+            totalasssistplayer2: [],
+            totalpointsplayer2: [],
+            totalblockplayer2: [],
+            totalreboundplayer2: [],
+            totalfgpplayer2: [],
+            totalftpplayer2: [],
+            totalstealsplayer2: [],
+            data2: this.totalpointsplayer2,
+            compareProfile: {}
         }
     }
 }
@@ -54,11 +102,11 @@ export default {
 
 <template>
     <div class="flex">
-        <Sidebar :playerData="playerData"/>
+        <Sidebar :playerData="playerData" @getCompareData="getCompareData"  />
 
         <div class="w-full px-4 h-[90vh] overflow-y-scroll">
             <h2 class="flex justify-center">{{ playerData.name }} Performance From Last 5 Matches</h2>
-            <ChartStatPlayer :storage5matchplayer="storage5matchplayer" :data="data" :playerData="playerData" />
+            <ChartStatPlayer :storage5matchplayer="storage5matchplayer" :data="data" :playerData="playerData" :data2="data2" :compareProfile="playerData2"/>
             <div class="flex justify-center">
                 <button @click.prevent="clickon('points')"
                     class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
