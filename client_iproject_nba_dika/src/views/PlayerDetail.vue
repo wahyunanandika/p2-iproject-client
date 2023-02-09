@@ -61,6 +61,7 @@ export default {
             this.totalftpplayer2 = this.dataCompare.map(el => {
                 return +el.ftp
             })
+            this.data2=this.totalpointsplayer2
         },
         getCompareProfile(id) {
             this.getplayerthird(id)
@@ -73,8 +74,11 @@ export default {
         await this.getplayer(this.$route.params.id)
         await this.specificplayerpercentage(this.playerData.thirdapiId)
         this.data = this.totalpointsplayer
-        this.data2 = this.datafivematchcompare
         
+        
+    },
+    mounted() {
+        this.data2 = this.totalpointsplayer2
     },
     computed: {
         ...mapState(useCounterStore, ['storageComparePlayer','playerData2','playerData', 'playeStatistic', 'storage5matchplayer', 'totalasssistplayer', 'totalreboundplayer', 'totalpointsplayer', 'totalblockplayer', 'totalfgpplayer', 'totalftpplayer', 'totalstealsplayer'])
@@ -111,33 +115,33 @@ export default {
         <div class="w-full px-4 h-[90vh] overflow-y-scroll">
             <h2 class="flex justify-center">{{ playerData.name }} Performance From Last 5 Matches</h2>
             <ChartStatPlayer :storage5matchplayer="storage5matchplayer" :data="data" :playerData="playerData" :data2="data2" :compareProfile="playerData2"/>
-            <div class="flex justify-center">
+            <div class="flex justify-center my-4">
                 <button @click.prevent="clickon('points')"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+                    class="bg-[#f7f9fa] hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
                     Points
                 </button>
                 <button @click.prevent="clickon('assists')"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                    class="bg-[#f7f9fa] hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
                     Assists
                 </button>
                 <button @click.prevent="clickon('rebounds')"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                    class="bg-[#f7f9fa] hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
                     Rebounds
                 </button>
                 <button @click.prevent="clickon('blocks')"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                    class="bg-[#f7f9fa] hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
                     Blocks
                 </button>
                 <button @click.prevent="clickon('steals')"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                    class="bg-[#f7f9fa] hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
                     Steals
                 </button>
                 <button @click.prevent="clickon('fgp')"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                    class="bg-[#f7f9fa] hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
                     Field Goal Percentage
                 </button>
                 <button @click.prevent="clickon('ftp')"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                    class="bg-[#f7f9fa] hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
                     Field Throw Percentage
                 </button>
             </div>

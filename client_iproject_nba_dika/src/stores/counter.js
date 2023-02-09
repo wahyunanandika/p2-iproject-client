@@ -232,7 +232,6 @@ export const useCounterStore = defineStore('counter', {
           onSuccess: function(result){
             /* You may add your own implementation here */
             cb()
-            alert("payment success!"); console.log(result);
           },
           onPending: function(result){
             /* You may add your own implementation here */
