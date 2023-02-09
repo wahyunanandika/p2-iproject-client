@@ -1,7 +1,8 @@
 import { ref, computed } from 'vue'
 import { defineStore, mapActions, mapState } from 'pinia'
 import axios from 'axios'
-
+const BASE_URL = "https://nba-stats-production.up.railway.app"
+// const BASE_URL = "http://localhost:3000"
 export const useCounterStore = defineStore('counter', {
   state: () => {
     return {
@@ -32,28 +33,40 @@ export const useCounterStore = defineStore('counter', {
       try {
         const { data } = await axios({
           method: 'POST',
-          url: 'http://localhost:3000/login',
+          url: `${BASE_URL}/login`,
           data: form
         })
         localStorage.setItem('access_token', data.access_token)
         this.getProfile()
         this.isLogin = localStorage.access_token
-        this.isSubscribe= localStorage.status
         this.router.push({ name: 'home' })
+        console.log(data, '<<<<');
       } catch (error) {
         console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.response.data.message,
+          footer: '<a href="">Why do I have this issue?</a>'
+        })
       }
     },
     async register(form) {
       try {
         const { data } = await axios({
           method: 'POST',
-          url: 'http://localhost:3000/register',
+          url: `${BASE_URL}/register`,
           data: form
         })
         this.router.push({ name: 'login' })
       } catch (error) {
         console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.response.data.message,
+          footer: '<a href="">Why do I have this issue?</a>'
+        })
       }
     },
     logout() {
@@ -66,7 +79,7 @@ export const useCounterStore = defineStore('counter', {
       try {
         const { data } = await axios({
           method: 'GET',
-          url: 'http://localhost:3000/players'
+          url: `${BASE_URL}/players`
         })
         this.allPlayersData = data
       } catch (error) {
@@ -77,7 +90,7 @@ export const useCounterStore = defineStore('counter', {
       try {
         const { data } = await axios({
           method: 'GET',
-          url: `http://localhost:3000/players/${id}`,
+          url: `${BASE_URL}/players/${id}`,
           headers: {
             access_token: localStorage.access_token
           }
@@ -92,7 +105,7 @@ export const useCounterStore = defineStore('counter', {
       try {
         const { data } = await axios({
           method: 'GET',
-          url: `http://localhost:3000/players/third/${id}`,
+          url: `${BASE_URL}/players/third/${id}`,
           headers: {
             access_token: localStorage.access_token
           }
@@ -179,13 +192,14 @@ export const useCounterStore = defineStore('counter', {
       try {
         const {data} = await axios({
           method: 'get',
-          url: 'http://localhost:3000/profile',
+          url: `${BASE_URL}/profile`,
           headers: {
             access_token: localStorage.access_token
           }
         })
         this.userLogin = data
         localStorage.setItem('status', data.status)
+        this.isSubscribe = localStorage.status
       } catch (error) {
         console.log(error);
       }
@@ -194,7 +208,7 @@ export const useCounterStore = defineStore('counter', {
       try {
         const {data} = await axios({
           method: 'patch',
-          url: 'http://localhost:3000/subscribe',
+          url: `${BASE_URL}/subscribe`,
           headers: {
             access_token: localStorage.access_token
           }
@@ -207,7 +221,7 @@ export const useCounterStore = defineStore('counter', {
     async subscribe() {
       const {data} = await axios({
         method: 'post',
-        url: 'http://localhost:3000/generate-midtrans-token',
+        url: `${BASE_URL}/generate-midtrans-token`,
         headers:{
           access_token: localStorage.access_token
         }
