@@ -6,7 +6,7 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 export default {
     name: 'LineChart',
     components: { Line },
-    props: ['storage5matchplayer', 'data', 'playerData'],
+    props: ['storage5matchplayer', 'data', 'playerData', 'data2', 'compareProfile'],
     data() {
         return {
         }
@@ -21,11 +21,12 @@ export default {
                     borderColor: "#5cddff",
                     data: this.data
                 }, 
-                // {
-                //     label: this.playerData.name,
-                //     backgroundColor: '#f87979',
-                //     data: this.data
-                // }
+                {
+                    label: this.compareProfile.name,
+                    backgroundColor: '#3CB371',
+                    borderColor: "#00FA9A",
+                    data: this.data2
+                }
             ]
             }
         },

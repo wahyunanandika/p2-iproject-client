@@ -16,7 +16,12 @@ export const useCounterStore = defineStore('counter', {
       totalfgpplayer: [],
       totalftpplayer: [],
       totalstealsplayer: [],
-      userLogin: {}
+      userLogin: {},
+      comparePlayerStatistic: {},
+      storageComparePlayer: [],
+      playerData2:{},
+      isLogin : localStorage.access_token,
+      isSubscribe: localStorage.status
     }
   },
   getters: {
@@ -33,6 +38,8 @@ export const useCounterStore = defineStore('counter', {
         console.log((data));
         localStorage.setItem('access_token', data.access_token)
         this.getProfile()
+        this.isLogin = localStorage.access_token
+        this.isSubscribe= localStorage.status
         this.router.push({ name: 'home' })
       } catch (error) {
         console.log(error);
@@ -53,6 +60,8 @@ export const useCounterStore = defineStore('counter', {
     },
     logout() {
       localStorage.clear()
+      this.isLogin = localStorage.access_token
+      this.isSubscribe= localStorage.status
       this.router.push({ name: 'home' })
     },
     async getallplayers() {
@@ -78,6 +87,48 @@ export const useCounterStore = defineStore('counter', {
         })
         this.playerData = data
         this.specificplayerpercentage(data.thirdapiId)
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getplayerthird(id) {
+      try {
+        const { data } = await axios({
+          method: 'GET',
+          url: `http://localhost:3000/players/third/${id}`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        this.playerData2 = data
+        console.log(this.playerData2, 'ini masuk');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    ,
+    async fetchDataCompare(id) {
+      try {
+        let Year
+        let nowMonth = (new Date()).getMonth()
+        let nowYear = (new Date()).getFullYear()
+        if (nowMonth <= 7) {
+          Year = nowYear - 1
+        } else {
+          Year = nowYear
+        }
+        const { data } = await axios({
+          method: 'GET',
+          url: 'https://api-nba-v1.p.rapidapi.com/players/statistics',
+          params: { id: `${id}`, season: `${Year}` },
+          headers: {
+            'X-RapidAPI-Key': '8a2a20a7ccmsh33f3256e888257fp1d4adfjsn235ec2ad880b',
+            'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
+          }
+        })
+        this.comparePlayerStatistic = data
+        console.log(data.response.length);
+        this.storageComparePlayer = data.response.slice(data.response.length -5, data.response.length)
       } catch (error) {
         console.log(error);
       }
