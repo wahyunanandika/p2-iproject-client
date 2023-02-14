@@ -74,8 +74,6 @@ export default {
         await this.getplayer(this.$route.params.id)
         await this.specificplayerpercentage(this.playerData.thirdapiId)
         this.data = this.totalpointsplayer
-        
-        
     },
     mounted() {
         this.data2 = this.totalpointsplayer2
